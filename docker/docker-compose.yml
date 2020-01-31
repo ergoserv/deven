@@ -4,15 +4,23 @@ services:
     build:
       context: .
     depends_on:
-      - db
+      - postgres
       - redis
-  db:
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./volumes/mysql/data:/var/lib/mysql/
+  postgres:
     image: postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
-      - ./volumes/db:/var/lib/postgresql/data
+      - ./volumes/postgres/data:/var/lib/postgresql/data
   redis:
     image: redis
     ports:
-      - "6379:6379"
+      - '6379:6379'
